@@ -253,9 +253,9 @@ static int lis2dh_trigger_click_set(const struct device *dev,
 		cfg->hw.anym_on_int1 ? LIS2DH_REG_CTRL3 : LIS2DH_REG_CTRL6,
 		cfg->hw.anym_on_int1 ? LIS2DH_EN_INT1_CLICK : LIS2DH_EN_INT2_CLICK);
 	
-	/* Enable single + double click interruption in all axis */
+	/* Enable single click interruption in all axis */
 	status = lis2dh->hw_tf->write_reg(dev, LIS2DH_REG_CFG_CLICK, 
-		LIS2DH_EN_CLICK_XS | LIS2DH_EN_CLICK_YS | LIS2DH_EN_CLICK_ZS);
+		(handler == NULL) ? 0 : LIS2DH_EN_CLICK_XS | LIS2DH_EN_CLICK_YS | LIS2DH_EN_CLICK_ZS);
 
 	// /* Configure threshold for the Click recognition */
 	// status = lis2dh->hw_tf->write_reg(dev, LIS2DH_REG_CFG_CLICK_THS, LIS2DH_CLICK_LIR | 20);
@@ -322,8 +322,6 @@ int lis2dh_trigger_set(const struct device *dev,
 	} else if (trig->type == SENSOR_TRIG_DELTA) {
 		return lis2dh_trigger_anym_set(dev, handler);
 	} else if (trig->type == SENSOR_TRIG_TAP) {
-		return lis2dh_trigger_click_set(dev, handler);
-	} else if (trig->type == SENSOR_TRIG_DOUBLE_TAP) {
 		return lis2dh_trigger_click_set(dev, handler);
 	}
 

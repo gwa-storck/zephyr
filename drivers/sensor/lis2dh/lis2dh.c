@@ -387,6 +387,11 @@ int lis2dh_init(const struct device *dev)
 		return status;
 	}
 
+#ifdef CONFIG_LIS2DH_ACCEL_HP_FILTERS
+	// set filter
+    lis2dh_acc_hp_filter_set(dev, 8);
+#endif
+
 	/* set full scale range and store it for later conversion */
 	lis2dh->scale = lis2dh_reg_val_to_scale[LIS2DH_FS_IDX];
 #ifdef CONFIG_LIS2DH_BLOCK_DATA_UPDATE

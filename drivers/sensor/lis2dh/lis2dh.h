@@ -282,7 +282,6 @@ struct lis2dh_data {
 	sensor_trigger_handler_t handler_drdy;
 	sensor_trigger_handler_t handler_anymotion;
 	sensor_trigger_handler_t single_tap_handler;
-	sensor_trigger_handler_t double_tap_handler;
 	atomic_t trig_flags;
 	enum sensor_channel chan_drdy;
 

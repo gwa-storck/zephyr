@@ -95,8 +95,9 @@
 #define LIS2DH_HPIS_EN_MASK		BIT_MASK(2) << LIS2DH_HPIS_EN_SHIFT
 
 #define LIS2DH_REG_CTRL3		0x22
-#define LIS2DH_EN_DRDY1_INT1_SHIFT	4
-#define LIS2DH_EN_DRDY1_INT1		BIT(LIS2DH_EN_DRDY1_INT1_SHIFT)
+#define LIS2DH_EN_CLICK_INT1	BIT(7)
+#define LIS2DH_EN_IA_INT1		BIT(6)
+#define LIS2DH_EN_DRDY1_INT1	BIT(4)
 
 #define LIS2DH_REG_CTRL4		0x23
 #define LIS2DH_FS_SHIFT			4
@@ -128,10 +129,8 @@
 #define LIS2DH_EN_LIR_INT1		BIT(LIS2DH_LIR_INT1_SHIFT)
 
 #define LIS2DH_REG_CTRL6		0x25
-#define LIS2DH_EN_INT2_INT2_SHIFT	5
-#define LIS2DH_EN_INT2_INT2		BIT(LIS2DH_EN_INT2_INT2_SHIFT)
-#define LIS2DH_EN_INT1_INT1_SHIFT	6
-#define LIS2DH_EN_INT1_INT1		BIT(LIS2DH_EN_INT1_INT1_SHIFT)
+#define LIS2DH_EN_CLICK_INT2	BIT(7)
+#define LIS2DH_EN_IA_INT2		BIT(5)
 
 #define LIS2DH_REG_REFERENCE		0x26
 
@@ -172,6 +171,23 @@
 #define LIS2DH_INT_CFG_YLIE_YDOWNE	BIT(2)
 #define LIS2DH_INT_CFG_XHIE_XUPE	BIT(1)
 #define LIS2DH_INT_CFG_XLIE_XDOWNE	BIT(0)
+
+#define LIS2DH_REG_CFG_CLICK	0x38
+#define LIS2DH_EN_CLICK_ZD		BIT(5)
+#define LIS2DH_EN_CLICK_ZS		BIT(4)
+#define LIS2DH_EN_CLICK_YD		BIT(3)
+#define LIS2DH_EN_CLICK_YS		BIT(2)
+#define LIS2DH_EN_CLICK_XD		BIT(1)
+#define LIS2DH_EN_CLICK_XS		BIT(0)
+
+#define LIS2DH_REG_CLICK_SRC		0x39
+#define LIS2DH_CLICK_SRC_DCLICK		BIT(5)
+#define LIS2DH_CLICK_SRC_SCLICK		BIT(4)
+
+#define LIS2DH_REG_CFG_CLICK_THS	0x3A
+#define LIS2DH_CLICK_LIR			BIT(7)
+
+#define LIS2DH_REG_TIME_LIMIT	0x3B
 
 /* sample buffer size includes status register */
 #define LIS2DH_BUF_SZ			7
@@ -260,6 +276,8 @@ struct lis2dh_data {
 	const struct sensor_trigger *trig_drdy;
 	sensor_trigger_handler_t handler_anymotion;
 	const struct sensor_trigger *trig_anymotion;
+	sensor_trigger_handler_t handler_tap;
+	const struct sensor_trigger *trig_tap;
 	atomic_t trig_flags;
 	enum sensor_channel chan_drdy;
 
